@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | WebRTC Edu</title>
+    <!-- NORMALIZE (RESET CSS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- MY CSS -->
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.5.2/css/all.min.css">
+    <!-- FONT GOOGLE -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- JQUERY -->
+    <script src="./assets/js/jquery.js"></script>
+    <script src="./assets/js/peer.js"></script>
+    <script src="./assets/js/socket.io.js"></script>
+</head>
+<body>
+    <div id="div-login" class="login-form">
+        <h2 class="login-form__heading">ĐĂNG NHẬP</h2>
+        <h3 class="login-form__title">Vui lòng đăng nhập để tiếp tục</h3>
+        <div class="login-form__form">
+            <input type="text" id="txtUsername" class="login-form__input" placeholder="Enter your username">
+            <input type="password" id="txtPassword" class="login-form__input" placeholder="Enter your password">
+            <button id="btnLogin" class="btn btn--primary">Đăng nhập</button>
+            <button id="btnBackSignUp" class="btn btn--primary">Đi đến đăng ký</button>
+        </div>
+    </div>
+</body>
+    <script src="./assets/js/main.js"></script>
+</html>

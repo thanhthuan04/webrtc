@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | WebRTC Edu</title>
+    <!-- NORMALIZE (RESET CSS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- MY CSS -->
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.5.2/css/all.min.css">
+    <!-- FONT GOOGLE -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- JQUERY -->
+    <script src="./assets/js/jquery.js"></script>
+    <script src="./assets/js/peer.js"></script>
+    <script src="./assets/js/socket.io.js"></script>
+</head>
+<body>
+    <div id="div-signup" class="signup-form">
+        <h2 class="signup-form__heading">ĐĂNG KÝ</h2>
+        <h3 class="signup-form__title">Tạo tài khoản mới</h3>
+        <div class="signup-form__form">
+            <input type="text" id="txtUsername" class="signup-form__input" placeholder="Enter your username">
+            <input type="text" id="txtFullname" class="signup-form__input" placeholder="Enter your fullname">
+            <input type="password" id="txtPassword" class="signup-form__input" placeholder="Create password">
+            <input type="password" id="txtRePassword" class="signup-form__input" placeholder="Confirm password">
+            <button id="btnSignUp" class="btn btn--primary">Đăng ký</button>
+            <button id="btnBackLogin" class="btn btn--primary">Trở về đăng nhập</button>
+        </div>
+    </div>
+</body>
+    <script src="./assets/js/main.js"></script>
+</html>

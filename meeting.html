@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meeting | WebRTC Demo</title>
+    <!-- NORMALIZE (RESET CSS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- MY CSS -->
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.5.2/css/all.min.css">
+    <!-- FONT GOOGLE -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- JQUERY -->
+    <script src="./assets/js/jquery.js"></script>
+    <script src="./assets/js/peer.js"></script>
+    <script src="./assets/js/socket.io.js"></script>
+</head>
+<body>
+    <div class="main">
+        <div class="main_container">
+            <div class="grid">
+                <div class="row">
+                    <div class="col l-8 m-6 c-12">
+                        <div id="div-chat">
+                            <div class="row" id="videoContainer">
+                                <div class="col l-6 m-6 c-12">
+                                    <video src="" id="localStream" autoplay muted controls></video>
+                                </div>
+                            </div>
+                            <div class="online_list">
+                                <button id="btnToggleMic" class="btn btn--primary">Tắt Mic</button>
+                                <button id="btnToggleCamera" class="btn btn--primary">Tắt Camera</button>
+                                <button id="btnShareScreen" class="btn btn--primary">Chia sẻ màn hình</button>
+                                <p class="div-chat__title">Danh sách người dùng trực tuyến:</p>
+                                <ul id="ulUser"></ul>
+                                <h3 id="my-peer">ID của tôi: </h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col l-4 m-6 c-12">
+                        <div id="div-chatbox">
+                            <div class="msglist-area">
+                                <p class="div-chatbox__title">Tin nhắn trong cuộc gọi</p>
+                                <pre id="messages" class="msglist"></pre>
+                            </div>
+                            <div class="sendmsg-area">
+                                <p class="div-chatbox__title">Nhập tin nhắn:</p>
+                                <input type="file" id="fileInput" class="div-chatbox__file">
+                                <textarea id="yourMessage"></textarea>
+                                <button id="btnSendMessage" class="btn btn--primary">Gửi tin nhắn</button>
+                                <button id="btnSendFile" class="btn btn--primary">Gửi file</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+    <script src="./assets/js/main.js"></script>
+    <script>
+        // Ở phần script trong meeting.html
+        const params = new URLSearchParams(window.location.search);
+        const roomID = params.get('roomID');
+        const fullname = params.get('fullname');
+
+        // Hiển thị thông tin roomID (tùy chọn)
+        if (roomID) {
+            console.log(`Bạn đã tham gia vào phòng: ${roomID}`);
+        }
+        if (fullname) {
+            document.getElementById('my-peer').textContent = `Chào mừng ${fullname} đến với phòng!`;
+        }
+
+        // Sau khi người dùng join room
+        if (roomID) {
+            navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+                .then(function(stream) {
+                    localStream = stream;
+                    const localVideo = document.getElementById('localStream');
+                    localVideo.srcObject = localStream;
+
+                    // Gọi đến peer khác
+                    const call = peer.call(roomID, localStream); // Gọi đến peer với ID của room
+                    call.on('stream', function(remoteStream) {
+                        addRemoteStream(call.peer, remoteStream); // Thêm luồng video từ peer vào trang
+                    });
+
+                    // Nếu có người gọi đến
+                    peer.on('call', function(call) {
+                        call.answer(localStream); // Gửi luồng video của mình
+                        call.on('stream', function(remoteStream) {
+                            addRemoteStream(call.peer, remoteStream); // Thêm luồng video từ peer khác
+                        });
+                    });
+                })
+                .catch(function(err) {
+                    console.error('Failed to get local stream', err);
+                });
+        }
+    </script>
+</html>

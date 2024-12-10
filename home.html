@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | WebRTC Demo</title>
+    <!-- NORMALIZE (RESET CSS) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- MY CSS -->
+    <link rel="stylesheet" href="./assets/css/base.css">
+    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="./assets/css/grid.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.5.2/css/all.min.css">
+    <!-- FONT GOOGLE -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+    <!-- JQUERY -->
+    <script src="./assets/js/jquery.js"></script>
+    <script src="./assets/js/peer.js"></script>
+    <script src="./assets/js/socket.io.js"></script>
+</head>
+<body>
+    <div id="div-welcome" class="welcome">
+        <h2 id="fullnameDisplay" class="welcome-message"></h2>
+        <h3 class="welcome-title">Tính năng họp và gọi video dành cho tất cả mọi người</h3>
+        <div class="welcome-form">
+            <button id="btnCreateRoom" class="btn btn--primary">Tạo phòng học mới</button>
+            <input type="text" id="roomID" class="welcome-form__roomID" placeholder="Nhập mã phòng">
+            <button id="btnConnectRoom" class="btn btn--primary">Tham gia</button>
+        </div>
+        <div id="room" class="room">
+            <h3 class="room-title">Danh sách các phòng học (do bạn quản lý):</h3>
+            <ul class="room-list">
+            </ul>
+        </div>
+    </div>
+    <script src="./assets/js/main.js"></script>
+    <script>
+        // Lấy giá trị `fullname` từ URL
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('username');
+        const fullname = params.get('fullname');
+        const role = params.get("role");
+        const roomID = params.get('roomID');
+    
+        $('#btnCreateRoom').hide();
+        $('#room').hide();
+
+        if (role == "GIAO_VIEN") {
+            $('#btnCreateRoom').show();
+            $('#room').show();
+
+            // Gửi yêu cầu lấy danh sách phòng khi trang được load
+            socket.emit('LAY_DS_PHONG_HOC', username);
+
+            // Nhận danh sách phòng học và hiển thị
+            socket.on('DANH_SACH_PHONG_HOC', (rooms) => {
+                const roomList = document.querySelector('.room-list');
+                roomList.innerHTML = ''; // Xóa danh sách cũ nếu có
+
+                rooms.forEach(room => {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'room-item';
+                    listItem.textContent = room.roomid;
+                    roomList.appendChild(listItem);
+                });
+            });
+        }
+
+        // Hiển thị `fullname` vào phần tử mong muốn
+        if (fullname) {
+            document.getElementById('fullnameDisplay').textContent = `Welcome, ${fullname}`;
+        }
+    </script>
+</body>
+</html>
